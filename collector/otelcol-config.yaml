@@ -1,0 +1,27 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+  arrow:
+    protocols:
+      grpc:
+        endpoint: "localhost:9000"
+
+exporters:
+  otelarrow:
+    endpoint: "localhost:9000"
+    tls:
+      insecure: true
+  customexporter:
+    log_file: "arrow_data.log"
+
+service:
+  pipelines:
+    traces/main:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otelarrow]
+    traces/arrow:
+      receivers: [arrow]
+      exporters: [customexporter]

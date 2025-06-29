@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package opentelemetry.proto.arrow.v1;
+
+message ArrowRecordMetadata {
+  string schema_id = 1;
+  string record_type = 2;
+} 

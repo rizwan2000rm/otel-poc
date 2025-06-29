@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package opentelemetry.proto.arrow.v1;
+
+import "proto/common.proto";
+import "proto/status.proto";
+
+service ArrowService {
+  rpc Export (ExportArrowRequest) returns (ExportArrowResponse) {}
+}
+
+message ExportArrowRequest {
+  bytes arrow_payload = 1;
+  ArrowRecordMetadata metadata = 2;
+}
+
+message ExportArrowResponse {
+  opentelemetry.proto.collector.arrow.v1.ExportStatus status = 1;
+} 

@@ -1,0 +1,47 @@
+# OS generated files
+.DS_Store
+
+# Editor directories and files
+*.swp
+*~
+*.bak
+*.tmp
+
+# Go build artifacts
+*.exe
+*.dll
+*.so
+*.out
+
+# Dependency directories
+vendor/
+
+# Log files
+*.log
+arrow_data.log
+
+# Archives and compressed files
+*.tar.gz
+
+# Large binaries and dependencies
+collector/otelcol-contrib
+collector/otelcol-contrib_0.128.0_darwin_arm64.tar.gz
+
+# Ignore by default any binary or object files
+*.bin
+*.obj
+*.a
+*.o
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore coverage files
+coverage*
+*.coverprofile
+
+# Ignore test output
+*.test
+
+# Ignore proto-generated files (if any)
+*.pb.go
