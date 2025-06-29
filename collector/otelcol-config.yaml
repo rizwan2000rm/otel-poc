@@ -6,11 +6,11 @@ receivers:
   arrow:
     protocols:
       grpc:
-        endpoint: "localhost:9000"
+        endpoint: "localhost:9001"
 
 exporters:
   otelarrow:
-    endpoint: "localhost:9000"
+    endpoint: "localhost:9001"
     tls:
       insecure: true
   customexporter:

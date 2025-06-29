@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package opentelemetry.proto.collector.arrow.v1;
-
-message ExportStatus {
-  string message = 1;
-  int32 code = 2;
-} 
