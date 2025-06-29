@@ -1,12 +1,12 @@
 receivers:
-  otelarrow: # This enables the Arrow receiver
+  otelarrow:
     protocols:
       grpc:
-        endpoint: "0.0.0.0:8080"
+        endpoint: "0.0.0.0:9002"
 
 exporters:
-  file:
-    path: "./arrow-data.log" # Change this path as needed
+  debug:
+    verbosity: detailed
 
 service:
   telemetry:
@@ -16,10 +16,4 @@ service:
   pipelines:
     traces:
       receivers: [otelarrow]
-      exporters: [file]
-    metrics:
-      receivers: [otelarrow]
-      exporters: [file]
-    logs:
-      receivers: [otelarrow]
-      exporters: [file]
+      exporters: [debug]

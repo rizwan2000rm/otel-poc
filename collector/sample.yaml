@@ -1,0 +1,17 @@
+dist:
+  module: github.com/yourorg/otelcol-arrow-custom
+  name: otelcol-arrow-custom
+  description: "Custom OpenTelemetry Collector with Arrow support"
+  version: 0.128.0
+
+receivers:
+  - gomod: go.opentelemetry.io/collector/receiver/otlpreceiver v0.128.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/receiver/otelarrowreceiver v0.128.0
+
+exporters:
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/exporter/otelarrowexporter v0.128.0
+
+processors:
+  - gomod: go.opentelemetry.io/collector/processor/batchprocessor v0.128.0
+
+extensions: []
