@@ -7,7 +7,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 
-	arrowpb "tonbo/arrow_receiver/gen"
+	arrowpb "github.com/open-telemetry/otel-arrow/api/experimental/arrow/v1"
 )
 
 func NewGRPCServer(cfg Config, db *sql.DB) (*grpc.Server, net.Listener) {
@@ -16,6 +16,9 @@ func NewGRPCServer(cfg Config, db *sql.DB) (*grpc.Server, net.Listener) {
 		log.WithError(err).Fatal("failed to listen")
 	}
 	grpcServer := grpc.NewServer()
-	arrowpb.RegisterArrowTracesServiceServer(grpcServer, NewArrowHandler(db))
+	handler := NewArrowHandler(db)
+	arrowpb.RegisterArrowTracesServiceServer(grpcServer, handler)
+	arrowpb.RegisterArrowLogsServiceServer(grpcServer, handler)
+	arrowpb.RegisterArrowMetricsServiceServer(grpcServer, handler)
 	return grpcServer, lis
 } 

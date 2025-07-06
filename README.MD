@@ -36,3 +36,11 @@ COPY (
     SELECT * FROM traces WHERE trace_id = '13c99620c7c04bda2e5bb16f25c81ee6'
   ) TO 'trace_details.json' (FORMAT JSON);
 ```
+
+Generate mock metrics, logs and traces
+
+```
+  telemetrygen traces --otlp-endpoint=localhost:4317 --otlp-insecure
+  telemetrygen logs --otlp-endpoint=localhost:4317 --otlp-insecure
+  telemetrygen metrics --otlp-endpoint=localhost:4317 --otlp-insecure
+```

@@ -22,3 +22,9 @@ service:
     traces/main:
       receivers: [otlp]
       exporters: [otelarrow]
+    logs/main:
+      receivers: [otlp]
+      exporters: [otelarrow]
+    metrics/main:
+      receivers: [otlp]
+      exporters: [otelarrow]
