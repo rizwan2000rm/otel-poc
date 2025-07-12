@@ -34,9 +34,11 @@ func main() {
 		}
 	}()
 
+	// Start HTTP server for queries
+	go internal.StartQueryAPIServer(db)
+
 	log.WithFields(log.Fields{"port": cfg.GRPCPort}).Info("ArrowTracesService gRPC server listening")
 	if err := grpcServer.Serve(lis); err != nil {
 		log.WithError(err).Fatal("failed to serve")
 	}
 }
-// Handler, server, arrow, and db logic moved to separate files. 
