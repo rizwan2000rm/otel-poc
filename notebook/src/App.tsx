@@ -1,82 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Sidebar from "./Sidebar";
-
-function parseTimestamp(ts: string): number {
-  // Example: "2025-07-12 12:30:32.892143 +0000 UTC"
-  const match = ts.match(
-    /^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})\.(\d{3})(\d{3}) \+0000 UTC$/
-  );
-  if (match) {
-    const [_, date, time, ms, us] = match;
-    // Parse as UTC
-    const base = Date.parse(`${date}T${time}.${ms}Z`);
-    if (!isNaN(base)) {
-      // Add microseconds as a fraction of a millisecond
-      return base + Number(us) / 1000;
-    }
-  }
-  // Fallback: try Date.parse
-  let ms = Date.parse(ts);
-  if (!isNaN(ms)) return ms;
-  // Fallback: try cleaning
-  const cleaned = ts.replace(" +0000 UTC", "").replace(" ", "T") + "Z";
-  ms = Date.parse(cleaned);
-  if (!isNaN(ms)) return ms;
-  return 0;
-}
-
-function normalizeRow(row: Record<string, unknown>) {
-  return {
-    id: String(row["span_id"]),
-    parentId: row["parent_span_id"] ? String(row["parent_span_id"]) : null,
-    name: String(row["name"]),
-    startTime: parseTimestamp(String(row["start_time_unix_nano"])),
-    endTime: parseTimestamp(String(row["end_time_unix_nano"])),
-    traceId: row["trace_id"] ? String(row["trace_id"]) : undefined,
-    kind: typeof row["kind"] === "number" ? (row["kind"] as number) : undefined,
-    status_code:
-      typeof row["status_code"] === "number"
-        ? (row["status_code"] as number)
-        : undefined,
-    status_message: row["status_message"]
-      ? String(row["status_message"])
-      : undefined,
-    attributes: row["attributes"] as object,
-    resource: row["resource"] as object,
-  };
-}
-
-function findRootAndTree(
-  rows: Record<string, unknown>[],
-  clickedRow: Record<string, unknown>
-) {
-  // Normalize all rows for tree logic
-  const normRows = rows.map(normalizeRow);
-  const id = String(clickedRow["span_id"]);
-  let current = normRows.find((r) => r.id === id);
-  if (!current) return [];
-  const idToRow: Record<string, typeof current> = {};
-  normRows.forEach((r) => {
-    idToRow[r.id] = r;
-  });
-  while (current.parentId && idToRow[current.parentId]) {
-    current = idToRow[current.parentId];
-  }
-  const collect = (
-    parentId: string | null,
-    visited = new Set<string>()
-  ): typeof normRows => {
-    if (!parentId || visited.has(parentId)) return [];
-    visited.add(parentId);
-    return normRows
-      .filter((r) => r.parentId === parentId)
-      .flatMap((r) => [r, ...collect(r.id, visited)]);
-  };
-  return [current, ...collect(current.id)];
-}
+import stub from "./stub.json";
+import { findRootAndTree, type normalizeRow } from "./utils";
 
 function App() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("select * from traces;");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<{
@@ -86,6 +14,8 @@ function App() {
   const [selectedTrace, setSelectedTrace] = useState<
     ReturnType<typeof normalizeRow>[] | null
   >(null);
+
+  console.log(result);
 
   const runQuery = async () => {
     setLoading(true);
@@ -101,7 +31,7 @@ function App() {
       if (!res.ok || data.error) {
         setError(data.error || "Query failed");
       } else {
-        setResult({ columns: data.columns, originalRows: data.rows });
+        setResult({ columns: stub.columns, originalRows: stub.originalRows });
       }
     } catch (e) {
       console.error(e);
