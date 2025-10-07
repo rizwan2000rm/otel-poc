@@ -10,7 +10,7 @@ Otel Infra end to end poc using Apache Arrow as the transfer protocol
 </div>
 
 
-Steps for POC
+### Steps for POC
 
 Run the collector
 
