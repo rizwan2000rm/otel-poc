@@ -1,5 +1,14 @@
 Otel Infra end to end poc using Apache Arrow as the transfer protocol 
 
+<div>
+    <a href="https://www.loom.com/share/c631bb6b0b304244a1ab1f2bd6895531">
+      <p>End-to-End Proof of Concept for Traces Exporter Implementation 🚀 - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/c631bb6b0b304244a1ab1f2bd6895531">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/c631bb6b0b304244a1ab1f2bd6895531-e49bce59f1a15bea-full-play.gif">
+    </a>
+</div>
+
 Steps for POC
 
 Run the collector
